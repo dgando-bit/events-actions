@@ -1,0 +1,30 @@
+# attribuer un nom au flux de travail. Définir l'action sur "push".
+name: Pytest & flake8 control Push
+on: push
+# Définir un id de tâche. Le nommer. Définir sur quelle instance l'exécuter.
+jobs:
+  qa:
+    name: Check tests
+    runs-on: ubuntu-20.04
+    # Maintenant, configurons nos étapes. Nous avons 5 étapes :
+    # Un contrôle du dépôt
+    steps:
+      - name: Checkout on master
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: "3.x"
+
+      - name: Install pytest and flake8
+        run: |
+          pip install pytest
+          pip install flake8
+
+      - name: Run tests
+        run: |
+          pytest
+
+      - name: Run flake8
+        uses: py-actions/flake8@v2
